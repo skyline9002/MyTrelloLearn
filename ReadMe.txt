@@ -1,7 +1,7 @@
 How To Open The Programme
 
 1. This project use nuget to manage the packages, make sure your VS have nuget extension.
-2. This project will use SQL Server V11 localdb, I am not sure whether it will be compatible with over version.
+2. This project will use SQL Server V11 localdb, I am not sure whether it will be compatible with other version.
 3. Go to Web.config to replace your App key and App secret for Trello oauth.
 
 
