@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Trello Integration Learn</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <style>
+        .mask {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: rgba( 255, 255, 255, .8 ) url('/Content/Blue_Loader.GIF') 50% 30% no-repeat;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header clearfix">
+            <nav>
+                <ul class="nav nav-pills pull-right">
+                    <li role="presentation"><a href="/">Home</a></li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li role="presentation">
+                            <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+                        </li>
+                    }
+                </ul>
+
+            </nav>
+            <h3 class="text-muted">My Trello Learn</h3>
+        </div>
+        @RenderBody()
+        <footer class="footer">
+            <p>&copy; 2016 SimonHuang</p>
+        </footer>
+    </div> <!-- /container -->
+    <!--Logout Form-->
+    @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+    {
+        @Html.AntiForgeryToken();
+    }
+    <div class="mask"></div>
+    <!--LogoutForm-->
+    <script>
+        function mask() { $('.mask').css('display', 'block'); }
+        function unmask() { $('.mask').css('display', 'none'); }
+    </script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

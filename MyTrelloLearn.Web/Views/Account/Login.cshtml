@@ -1,0 +1,22 @@
+﻿@model AuthenticationClientData
+@{
+    ViewBag.Title = "Login";
+}
+
+<div class="jumbotron">
+    <h1>My Trello Learn</h1>
+    <p class="lead">
+        This project is built for learning how to integration with Trello.com, using OAuth to connect to Trello.com. Also, some basic usage with Trello APIs
+    </p>
+    <p>
+        @using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }))
+        {
+            @Html.AntiForgeryToken();
+
+            <button type="submit" name="provider" class="btn btn-lg btn-success" value="@Model.AuthenticationClient.ProviderName">
+                Connect To <span>@Model.DisplayName</span>.com
+            </button>
+        }
+    </p>
+</div>
+
