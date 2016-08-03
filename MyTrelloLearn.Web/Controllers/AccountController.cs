@@ -14,6 +14,12 @@ namespace MyTrelloLearn.Web.Controllers
     [InitializeSimpleMembershipAttribute]
     public class AccountController : Controller
     {
+        // GET: /Account/Login
+        public enum ManageMessageId
+        {
+            RemoveLoginSuccess,
+        }
+
         // GET： /Account/Login
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
@@ -31,6 +37,15 @@ namespace MyTrelloLearn.Web.Controllers
             WebSecurity.Logout();
             return this.RedirectToAction("Index", "Home");
         }
+
+        // GET: /Account/Manage
+        public ActionResult Manage(ManageMessageId? message)
+        {
+            this.ViewBag.StatusMessage = message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed." : string.Empty;
+            this.ViewBag.ReturnUrl = this.Url.Action("Manage");
+            return this.View();
+        }
+
 
         // POST: /Account/ExternalLogin
         [HttpPost]
@@ -89,6 +104,11 @@ namespace MyTrelloLearn.Web.Controllers
         {
             string provider = null;
             string providerUserId = null;
+
+            if (this.User.Identity.IsAuthenticated || !OAuthWebSecurity.TryDeserializeProviderUserId(model.ExternalLoginData, out provider, out providerUserId))
+            {
+                return this.RedirectToAction("Manage");
+            }
 
             if (this.ModelState.IsValid)
             {
